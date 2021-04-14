@@ -343,7 +343,14 @@ function buildEngine(options) {
       }
 
       hostAddons[addon.name] = addon;
-      queue.push.apply(queue, addon.addons);
+      
+      if (host.project.perBundleAddonCache) {
+        queue.push.apply(queue, host.project.perBundleAddonCache.getAddonAddons(addon));
+      } else {
+        queue.push.apply(queue, addon.addons);
+      }
+
+      //queue.push.apply(queue, addon.addons);
     }
 
     this._hostAddons = hostAddons;
